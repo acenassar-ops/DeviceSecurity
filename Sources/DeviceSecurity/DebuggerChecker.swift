@@ -15,7 +15,7 @@ import Darwin
 /// and determine if it is being traced (e.g., by Xcode's debugger).
 ///
 /// - Returns: `true` if a debugger is attached; otherwise, `false`.
-internal var isDebuggerAttached: Bool {
+public var isDebuggerAttached: Bool {
     let name = [CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()]
     var info = kinfo_proc()
     var infoSize = MemoryLayout<kinfo_proc>.stride

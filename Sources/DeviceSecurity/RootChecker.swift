@@ -33,7 +33,7 @@ internal struct RootChecker {
     /// such as known file paths, sandbox violations, symbolic links, and URL schemes.
     ///
     /// - Returns: `true` if the device appears to be jailbroken; otherwise, `false`.
-    internal func isJailbroken() -> Bool {
+    public func isJailbroken() -> Bool {
         return hasJailbreakFiles() ||
                canWriteOutsideSandbox() ||
                canOpenCydia() ||

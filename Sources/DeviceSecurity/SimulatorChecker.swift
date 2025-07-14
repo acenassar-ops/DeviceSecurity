@@ -14,7 +14,7 @@ import Foundation
 /// which is automatically set by Xcode when running in a simulator environment.
 ///
 /// - Returns: `true` if the app is running on a simulator; otherwise, `false`.
-internal var isRunningOnSimulator: Bool {
+public var isRunningOnSimulator: Bool {
     return ProcessInfo.processInfo.environment["SIMULATOR_DEVICE_NAME"] != nil
 }
 
