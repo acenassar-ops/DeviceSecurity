@@ -2,9 +2,6 @@
 // https://docs.swift.org/swift-book
 
 import Foundation
-#if canImport(UIKit)
-import UIKit
-#endif
 
 // MARK: - Implementation
 /// A utility for detecting whether the current iOS device is jailbroken.
@@ -24,6 +21,12 @@ internal struct RootChecker {
 
     /// Creates a new `JailbreakDetector` instance.
 
+    public var canOpenUrlChecker: ((URL) -> Bool)?
+    
+    init(canOpenUrlChecker: ((URL) -> Bool)? = nil) {
+        self.canOpenUrlChecker = canOpenUrlChecker
+    }
+    
     /// Indicates whether the current device is likely jailbroken.
     ///
     /// This performs a series of heuristic checks for common jailbreak indicators,
@@ -70,14 +73,11 @@ internal struct RootChecker {
     
     // Check if Cydia URL scheme can be opened.
     private func canOpenCydia() -> Bool {
-        #if canImport(UIKit)
-        guard let cydiaUrl = URL(string: "cydia://package/com.example.package") else {
+        guard let checker = canOpenUrlChecker,
+              let cydiaUrl = URL(string: "cydia://package/com.example.package") else {
             return false
         }
-        return UIApplication.shared.canOpenURL(cydiaUrl)
-        #else
-        return false
-        #endif
+        return checker(cydiaUrl)
     }
     
     // Checks for symbolic links at common jailbreak file paths.
@@ -114,6 +114,6 @@ internal struct RootChecker {
 ///</array>
 
 // MARK: - Usage
-/// if RootChecker().isJailbroken() {
-///     print("Jailbroken!")
-/// }
+/// let checker = DeviceSecurity(canOpenUrlChecker: { url in
+/// UIApplication.shared.canOpenURL(url)
+/// })
