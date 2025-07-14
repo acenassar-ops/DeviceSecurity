@@ -2,6 +2,9 @@
 // https://docs.swift.org/swift-book
 
 import Foundation
+#if canImport(UIKit)
+import UIKit
+#endif
 
 // MARK: - Implementation
 /// A utility for detecting whether the current iOS device is jailbroken.
